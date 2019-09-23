@@ -17,8 +17,6 @@ class BreathFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_breath, container, false)
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,19 +27,22 @@ class BreathFragment : Fragment() {
         val scale_xs = PropertyValuesHolder.ofFloat(View.SCALE_X,3f, 0.1f)
         val scale_ys = PropertyValuesHolder.ofFloat(View.SCALE_Y,3f, 0.1f)
 
-        val scaleTextUp = ObjectAnimator.ofPropertyValuesHolder(textView, scale_x, scale_y).apply {
+        val scaleTextUp = ObjectAnimator.ofPropertyValuesHolder(textView, scale_x, scale_y)
+            .apply {
             duration = 2500
         }
-        val scaleTextDown = ObjectAnimator.ofPropertyValuesHolder(textView, scale_xs, scale_ys).apply {
+        val scaleTextDown = ObjectAnimator.ofPropertyValuesHolder(textView, scale_xs, scale_ys)
+            .apply {
             duration = 2500
         }
 
+        //Expand and shrink animation
         val animatorSet = AnimatorSet()
         animatorSet.play(scaleTextUp)
             .before(scaleTextDown)
         animatorSet.start()
 
-
+        //Repeating animation indefinitely
         animatorSet.addListener(object : AnimatorListenerAdapter() {
 
             private var mCanceled: Boolean = false
@@ -57,8 +58,6 @@ class BreathFragment : Fragment() {
                     animation.start()
                 }
             }
-
         })
-        animatorSet.start()
     }
 }

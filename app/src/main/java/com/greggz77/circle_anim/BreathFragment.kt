@@ -22,25 +22,21 @@ class BreathFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val scale_x = PropertyValuesHolder.ofFloat(View.SCALE_X,0.1f, 3f)
-        val scale_y = PropertyValuesHolder.ofFloat(View.SCALE_Y,0.1f, 3f)
-        val scale_xs = PropertyValuesHolder.ofFloat(View.SCALE_X,3f, 0.1f)
-        val scale_ys = PropertyValuesHolder.ofFloat(View.SCALE_Y,3f, 0.1f)
+        //Expand and shrink animation
+        val scale_x = PropertyValuesHolder.ofFloat(View.SCALE_X,1f, 2f)
+        val scale_y = PropertyValuesHolder.ofFloat(View.SCALE_Y,1f, 2f)
+        val scale_xs = PropertyValuesHolder.ofFloat(View.SCALE_X,2f, 1f)
+        val scale_ys = PropertyValuesHolder.ofFloat(View.SCALE_Y,2f, 1f)
 
         val scaleTextUp = ObjectAnimator.ofPropertyValuesHolder(textView, scale_x, scale_y)
             .apply {
-            duration = 2500
+            duration = 3500
         }
         val scaleTextDown = ObjectAnimator.ofPropertyValuesHolder(textView, scale_xs, scale_ys)
             .apply {
-            duration = 2500
+            duration = 3500
         }
-
-        //Expand and shrink animation
         val animatorSet = AnimatorSet()
-        animatorSet.play(scaleTextUp)
-            .before(scaleTextDown)
-        animatorSet.start()
 
         //Repeating animation indefinitely
         animatorSet.addListener(object : AnimatorListenerAdapter() {
@@ -59,5 +55,7 @@ class BreathFragment : Fragment() {
                 }
             }
         })
+        animatorSet.playSequentially(scaleTextUp, scaleTextDown)
+        animatorSet.start()
     }
 }

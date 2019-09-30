@@ -3,12 +3,12 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid  android:color="#50DCDCDC"/>
+            <solid  android:color="#856495ED"/>
             <size   android:width="120dp"
                     android:height="120dp"/>
             <stroke
                     android:width="0.7dp"
-                    android:color="#50A9A9A9"/>
+                    android:color="#8500008B"/>
             <corners
                     android:radius="60dp"/>
             <padding

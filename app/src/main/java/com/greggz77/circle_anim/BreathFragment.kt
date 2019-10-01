@@ -2,6 +2,7 @@ package com.greggz77.circle_anim
 
 import android.animation.*
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,19 +24,16 @@ class BreathFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         //Expand and shrink animation
-        val scale_x = PropertyValuesHolder.ofFloat(View.SCALE_X,1f, 2f)
-        val scale_y = PropertyValuesHolder.ofFloat(View.SCALE_Y,1f, 2f)
-        val scale_xs = PropertyValuesHolder.ofFloat(View.SCALE_X,2f, 1f)
-        val scale_ys = PropertyValuesHolder.ofFloat(View.SCALE_Y,2f, 1f)
+        val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X,1f, 2f)
+        val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y,1f, 2f)
+        val scaleXS = PropertyValuesHolder.ofFloat(View.SCALE_X,2f, 1f)
+        val scaleYS = PropertyValuesHolder.ofFloat(View.SCALE_Y,2f, 1f)
 
-        val scaleTextUp = ObjectAnimator.ofPropertyValuesHolder(textView, scale_x, scale_y)
-            .apply {
+        val scaleTextUp = ObjectAnimator.ofPropertyValuesHolder(textView, scaleX, scaleY)
+            /*.apply {
             duration = 3500
-        }
-        val scaleTextDown = ObjectAnimator.ofPropertyValuesHolder(textView, scale_xs, scale_ys)
-            .apply {
-            duration = 3500
-        }
+        }*/
+        val scaleTextDown = ObjectAnimator.ofPropertyValuesHolder(textView, scaleXS, scaleYS)
         val animatorSet = AnimatorSet()
 
         //Repeating animation indefinitely
@@ -45,6 +43,16 @@ class BreathFragment : Fragment() {
 
             override fun onAnimationStart(animation: Animator) {
                 mCanceled = false
+                //Timer countdown to stop anim. after 5 min. - set timer duration to 5' - current duration just for testing
+                object : CountDownTimer(10000, 1000) {
+
+                    override fun onTick(millisUntilFinished: Long) {
+                    }
+                    override fun onFinish() {
+                        directionsTextView.text = "Exercise done..."
+                        mCanceled = true
+                    }
+                }.start()
             }
             override fun onAnimationCancel(animation: Animator) {
                 mCanceled = true
@@ -56,6 +64,7 @@ class BreathFragment : Fragment() {
             }
         })
         animatorSet.playSequentially(scaleTextUp, scaleTextDown)
+        animatorSet.duration = 3500
         animatorSet.start()
     }
 }
